@@ -13,7 +13,8 @@ resource "local_file" "index_html" {
 <title>Test DevOps avec Terraform</title>
 </head>
 <body>
-<h1>Bienvenue dans le pipeline DevOps via Terraform !</h1>
+<h1>Bienvenue dans le pipeline DevOps via Terraform !Hello from Terraform – version 2</h1>
+
 <p>Le fichier a été généré par Terraform.</p>
 </body>
 </html>

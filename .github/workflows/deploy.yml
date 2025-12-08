@@ -7,32 +7,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  terraform:
+  terraform-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.6.0
+
       - name: Terraform Init
         run: terraform init
+
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
-  deploy:
-    needs: terraform   # <-- attend que le job Terraform se termine
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: List files after Terraform
+        run: ls -la  # Vérifie que index_from_terraform.html est là
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.0.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./   # <-- inclut index_from_terraform.html
+          local-dir: ./   # inclut index_from_terraform.html
           server-dir: /htdocs/
           dry-run: false
